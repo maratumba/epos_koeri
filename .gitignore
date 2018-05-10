@@ -1,0 +1,47 @@
+# OS generated files #
+######################
+
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.idea
+
+# Ignore docker drives #
+########################
+/docker_drive/*
+/docker_scripts/*
+/mysql_docker/var/*
+/mysqldocker/var
+/mysql_sources/*
+/backup
+/apache2
+/mysql_seiscomp/*
+/docker-seiscomp3-fdsnws/var/*
+/temp/*
+
+# Config files #
+################
+**/config.ini 
+**/.*.swp
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+# YML file #
+############
+**/docker-compose.yml
+=======
+>>>>>>> d1370fd673334bae77c1ba087ec271f7a2472756
+||||||| merged common ancestors
+=======
+<<<<<<< HEAD
+
+# YML file #
+############
+#**/docker-compose.yml
+=======
+>>>>>>> d1370fd673334bae77c1ba087ec271f7a2472756
+>>>>>>> 68c3aa7d3794fa1d510aa2809840df88eaed75f2
