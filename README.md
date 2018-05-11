@@ -2,6 +2,13 @@
 
 First time install on a new machine:
 
+You need to supply `config.ini` files for tornado 
+containers `tornado_radon` and `tornado_seis` in 
+their respective directories. You also need a 
+`docker-compose.yml` in the base directory in 
+order to use `docker-compose`.
+
+Examples of these files are provided.
 
 
 ```bash
@@ -25,7 +32,13 @@ mysql -p -u root
 source mysql_dump/radon_create_db_add_data.sql
 ```
 
-Run all containers
+Run all containers in the base directory:
+```bash
+docker-compose up -d
+```
+
+or use the startup script
 ```bash
 docker_scripts/v3_mysql_docker_start.sh
 ```
+
