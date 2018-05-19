@@ -141,7 +141,7 @@ class IndexHandler(tornado.web.RequestHandler):
         for idx, q in enumerate(queries):
             queries[idx] = '&'.join(['{}={}'.format(k, v) for k, v in q.iteritems()])
         # transform the queries into http query strings
-        queries = ['/query?%s' % q for q in queries]
+        queries = ['/nfo_marsite/query?%s' % q for q in queries]
 
         manager = RequestManagerRadon()
 
