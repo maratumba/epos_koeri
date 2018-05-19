@@ -42,3 +42,19 @@ or use the startup script
 docker_scripts/v3_mysql_docker_start.sh
 ```
 
+Use `apache` `mod_proxy` to map ports to urls in `/etc/apache2/sites-enabled/000-default.conf`:
+```apache
+<VirtualHost *:80>
+        ProxyPreserveHost On
+        ServerName toros.boun.edu.tr
+        ProxyPass /fdsnws http://toros.boun.edu.tr:8081/fdsnws
+        ProxyPassReverse /fdsnws http://toros.boun.edu.tr:8081/fdsnws
+        ProxyPass /nfo_marsite/radon http://toros.boun.edu.tr:8888
+        ProxyPassReverse /nfo_marsite/radon http://toros.boun.edu.tr:8888
+        ProxyPass /nfo_marsite/vpvs http://toros.boun.edu.tr:8889
+        ProxyPassReverse /nfo_marsite/vpvs http://toros.boun.edu.tr:8889
+        
+        # ...
+    
+</VirtualHost>
+```
