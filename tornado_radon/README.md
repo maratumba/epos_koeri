@@ -60,3 +60,4 @@ docker run -e EP_DB_HOST='db_seismo' \
 -e EP_DB_DB='geochem_taboo' \
 --link db_seismo:db_seismo -p 8888:8888 -d --name epos_radon base_radon
 ```
+

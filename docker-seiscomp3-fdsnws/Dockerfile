@@ -64,6 +64,7 @@ USER sysop
 
 EXPOSE 8080
 
+
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 
