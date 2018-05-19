@@ -37,7 +37,7 @@ services:
   mysql_seiscomp:
     image: mysql_base
     environment:
-      MYSQL_ROOT_PASSWORD: abolo
+      MYSQL_ROOT_PASSWORD: #password_1
       MYSQL_USER: sysop
       MYSQL_PASSWORD: #password_2
     volumes:
