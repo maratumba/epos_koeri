@@ -33,16 +33,16 @@ class MainHandler(handler.APIBaseHandler):
                     ( 1 + 
                      (
                       (
-                       TIMESTAMPDIFF(microsecond,c.origintime,g.pick)/{param_DIV}
+                       TIMESTAMPDIFF(microsecond,c.origintime,g.pick)/{DIV}
                       ) 
                       - 
                       (
-                       TIMESTAMPDIFF(microsecond,c.origintime,f.pick)/{param_DIV}
+                       TIMESTAMPDIFF(microsecond,c.origintime,f.pick)/{DIV}
                       )
                      ) 
                      / 
                      (
-                      TIMESTAMPDIFF(microsecond,c.origintime,f.pick)/{param_DIV}
+                      TIMESTAMPDIFF(microsecond,c.origintime,f.pick)/{DIV}
                      )
                     ) as vpvs_value,
                     g.pick as S_arrival_time,
@@ -74,11 +74,11 @@ class MainHandler(handler.APIBaseHandler):
                     f.net = h.network and
                     f.stacode = h.stacode and
                     f.loco = h.loco and
-                    (c.lat between {param_minlat} and {param_maxlat}) and
-                    (c.lon between {param_minlon} and {param_maxlon}) and
-                    (c.elev between {param_mineqdep} and {param_maxeqdep}) and
-                    (c.origintime between '{param_mintime}' and '{param_maxtime}') 
-                    having (vpvs_value > {param_vpvsmin})
+                    (c.lat between {minlat} and {maxlat}) and
+                    (c.lon between {minlon} and {maxlon}) and
+                    (c.elev between {mineqdep} and {maxeqdep}) and
+                    (c.origintime between '{mintime}' and '{maxtime}') 
+                    having (vpvs_value > {vpvsmin})
                     order by c.origintime asc
                     limit 1000000;
                     '''.format(**args)
@@ -108,60 +108,60 @@ class IndexHandler(tornado.web.RequestHandler):
 
         # add some example queries
         queries.append(dict(
-            param_mintime='1980-01-01T00:00:00.000',
-            param_maxtime='2017-01-01T00:00:00.000',
-            param_minlat=30,          # -90, 90 and smaller than maxlat
-            param_maxlat=50,          # -90, 90
-            param_minlon=40,          # -180, 180 and smaller than maxlon
-            param_maxlon=60,          # -180, 180
-            param_mineqdep=-70,       # -6378, -9 and smaller than maxeqdep
-            param_maxeqdep=-30,       # -6378, -9
-            param_minnp=2,            # number of p waves, int, min: 0
-            param_minns=3,            # number of s waves, int, min: 0
-            param_maxpw=3,            # int, 0, 4
-            param_maxsw=3,            # int, 0, 4
-            param_minps=4,            # 0, +
-            param_maxvpvspw=3,
-            param_maxvpvssw=3,
-            param_maxgap=150,         # azim gap 0, 360
-            param_midi=70,            # horiz dist of closest sta
-            param_maxherr=300,        # 0, 4000
-            param_maxverr=200,         # 0, 6378
-            param_maxvpvserr=1000000,
-            param_DIV=1000000,
-            param_vpvsmin = 1.41,
-            param_modtype = 1,
-            param_codetype = 2,
-            param_mettype = 2
+            mintime='1980-01-01T00:00:00.000',
+            maxtime='2017-01-01T00:00:00.000',
+            minlat=30,          # -90, 90 and smaller than maxlat
+            maxlat=50,          # -90, 90
+            minlon=40,          # -180, 180 and smaller than maxlon
+            maxlon=60,          # -180, 180
+            mineqdep=-70,       # -6378, -9 and smaller than maxeqdep
+            maxeqdep=-30,       # -6378, -9
+            minnp=2,            # number of p waves, int, min: 0
+            minns=3,            # number of s waves, int, min: 0
+            maxpw=3,            # int, 0, 4
+            maxsw=3,            # int, 0, 4
+            minps=4,            # 0, +
+            maxvpvspw=3,
+            maxvpvssw=3,
+            maxgap=150,         # azim gap 0, 360
+            midi=70,            # horiz dist of closest sta
+            maxherr=300,        # 0, 4000
+            maxverr=200,         # 0, 6378
+            maxvpvserr=1000000,
+            DIV=1000000,
+            vpvsmin = 1.41,
+            modtype = 1,
+            codetype = 2,
+            mettype = 2
         ))
 
 
         queries.append(dict(
-            param_mintime='1980-01-01T00:00:00.000',
-            param_maxtime='2017-01-01T00:00:00.000',
-            param_minlat=0.0,          # -90, 90 and smaller than maxlat
-            param_maxlat=80.0,          # -90, 90
-            param_minlon=0.10,          # -180, 180 and smaller than maxlon
-            param_maxlon=90.0,          # -180, 180
-            param_mineqdep=1.,       # -9, 6378 and smaller than maxeqdep
-            param_maxeqdep=1000.0,       # -9, 6378
-            param_minnp=0,            # number of p waves, int, min: 0
-            param_minns=0,            # number of s waves, int, min: 0
-            param_maxpw=0,            # int, 0, 4
-            param_maxsw=0,            # int, 0, 4
-            param_minps=0,            # 0, +
-            param_maxvpvspw=4,
-            param_maxvpvssw=4,
-            param_maxgap=360,         # azim gap 0, 360
-            param_midi=0,            # horiz dist of closest sta
-            param_maxherr=500,        # 0, 4000
-            param_maxverr=500,         # 0, 6378
-            param_maxvpvserr=100000,
-            param_DIV=1000000, #why is this adjustable?
-            param_vpvsmin = 0,
-            param_modtype = 1,
-            param_codetype = 2,
-            param_mettype = 2
+            mintime='1980-01-01T00:00:00.000',
+            maxtime='2017-01-01T00:00:00.000',
+            minlat=0.0,          # -90, 90 and smaller than maxlat
+            maxlat=80.0,          # -90, 90
+            minlon=0.10,          # -180, 180 and smaller than maxlon
+            maxlon=90.0,          # -180, 180
+            mineqdep=1.,       # -9, 6378 and smaller than maxeqdep
+            maxeqdep=1000.0,       # -9, 6378
+            minnp=0,            # number of p waves, int, min: 0
+            minns=0,            # number of s waves, int, min: 0
+            maxpw=0,            # int, 0, 4
+            maxsw=0,            # int, 0, 4
+            minps=0,            # 0, +
+            maxvpvspw=4,
+            maxvpvssw=4,
+            maxgap=360,         # azim gap 0, 360
+            midi=0,            # horiz dist of closest sta
+            maxherr=500,        # 0, 4000
+            maxverr=500,         # 0, 6378
+            maxvpvserr=100000,
+            DIV=1000000, #why is this adjustable?
+            vpvsmin = 0,
+            modtype = 1,
+            codetype = 2,
+            mettype = 2
         ))
         
         for idx, q in enumerate(queries):

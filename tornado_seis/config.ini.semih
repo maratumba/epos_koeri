@@ -1,0 +1,7 @@
+[db]
+host: koeri_mysql
+user: root
+pass: askjhasDDKBJSb221D
+db: seismo_all
+[service]
+port: 8888
