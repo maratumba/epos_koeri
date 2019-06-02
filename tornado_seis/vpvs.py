@@ -119,6 +119,99 @@ class MainHandler(handler.APIBaseHandler):
             return self.send_error_response(errors)
 
 
+class StationHandler(handler.APIBaseHandler):
+
+    def initialize(self, config):
+        self.config = config
+
+    def get(self):
+        manager = RequestManagerVPVSStations()
+        user_request = manager.bind(self).validate()
+        if user_request.is_valid:
+            args = user_request.getArgs()
+
+            cnx = mysql.connector.connect(user=self.config.get('db', 'user'),
+                                          password=self.config.get('db', 'pass'),
+                                          database=self.config.get('db', 'db'),
+                                          host=self.config.get('db', 'host'))
+
+            cursor = cnx.cursor(dictionary=True)
+
+            query = self.config.get('stations', 'query')
+            station_where = ''
+            
+            if args['stacode'] != '0000':
+                station_where = "where stacode = '{stacode}'"
+
+            query = query % station_where
+            query = query.format(**args)
+            # print(query)
+
+            for result in cursor.execute(query, multi=True):
+                if result.with_rows:
+                    # print("Rows produced by statement '{}':".format(result.statement))
+                    resp = self.render_string('stations_response.json',
+                        header="{}",
+                        result=json.dumps(result.fetchall(), cls=DataEncoder))
+                    self.write(resp)
+                    self.set_header('Content-Type', 'application/json')
+                    return
+                else:
+                    pass
+            return
+
+        else:
+            errors = [e.message for e in user_request.global_errors] + [e.message for (p, e) in user_request.errors]
+            return self.send_error_response(errors)
+
+
+
+class StationMinMaxHandler(handler.APIBaseHandler):
+
+    def initialize(self, config):
+        self.config = config
+
+    def get(self):
+        manager = RequestManagerVPVSStations()
+        user_request = manager.bind(self).validate()
+        if user_request.is_valid:
+            args = user_request.getArgs()
+
+            cnx = mysql.connector.connect(user=self.config.get('db', 'user'),
+                                          password=self.config.get('db', 'pass'),
+                                          database=self.config.get('db', 'db'),
+                                          host=self.config.get('db', 'host'))
+
+            cursor = cnx.cursor(dictionary=True)
+
+            query = self.config.get('stationsminmax', 'query')
+            station_where = ''
+            
+            if args['stacode'] != '0000':
+                station_where = "where station_code = '{stacode}'"
+
+            query = query % station_where
+            query = query.format(**args)
+            # print(query)
+
+            for result in cursor.execute(query, multi=True):
+                if result.with_rows:
+                    # print("Rows produced by statement '{}':".format(result.statement))
+                    resp = self.render_string('stations_response.json',
+                        header="{}",
+                        result=json.dumps(result.fetchall(), cls=DataEncoder))
+                    self.write(resp)
+                    self.set_header('Content-Type', 'application/json')
+                    return
+                else:
+                    pass
+            return
+
+        else:
+            errors = [e.message for e in user_request.global_errors] + [e.message for (p, e) in user_request.errors]
+            return self.send_error_response(errors)
+
+
 class IndexHandler(tornado.web.RequestHandler):
 
     def get(self):
@@ -204,6 +297,7 @@ if __name__ == "__main__":
     application = tornado.web.Application([
         (r"/", IndexHandler),
         (r"/query", MainHandler, dict(config=cfg)),
+        (r"/stations", StationHandler, dict(config=cfg)),
         (r"/stationsminmax", StationMinMaxHandler, dict(config=cfg))
     ], **settings)
     application.listen(cfg.get('service', 'port'))
