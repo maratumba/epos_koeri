@@ -27,21 +27,7 @@ Thumbs.db
 ################
 **/config.ini 
 **/.*.swp
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 # YML file #
-############
 **/docker-compose.yml
-=======
->>>>>>> d1370fd673334bae77c1ba087ec271f7a2472756
-||||||| merged common ancestors
-=======
-<<<<<<< HEAD
-
-# YML file #
-############
-#**/docker-compose.yml
-=======
->>>>>>> d1370fd673334bae77c1ba087ec271f7a2472756
->>>>>>> 68c3aa7d3794fa1d510aa2809840df88eaed75f2
+.vscode/settings.json

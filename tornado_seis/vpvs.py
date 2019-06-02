@@ -3,10 +3,28 @@ import handler
 import tornado.ioloop
 import tornado.web
 import tornado.escape
-from request_manager_vpvs import RequestManagerVPVS
+from request_manager_vpvs import RequestManagerVPVS, RequestManagerVPVSStations
 import _mysql
+import mysql.connector
 import json
 from ConfigParser import ConfigParser
+import decimal
+from datetime import datetime
+
+# ##################
+# JSON ENCODER CLASS
+# ##################
+class DataEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, decimal.Decimal):
+            return float(o)
+
+        if isinstance(o, datetime):
+            return o.isoformat()
+
+        return json.JSONEncoder.default(self, o)
+
+
 
 class MainHandler(handler.APIBaseHandler):
 
@@ -185,7 +203,8 @@ if __name__ == "__main__":
 
     application = tornado.web.Application([
         (r"/", IndexHandler),
-        (r"/query", MainHandler, dict(config=cfg))
+        (r"/query", MainHandler, dict(config=cfg)),
+        (r"/stationsminmax", StationMinMaxHandler, dict(config=cfg))
     ], **settings)
     application.listen(cfg.get('service', 'port'))
     tornado.ioloop.IOLoop.current().start()
